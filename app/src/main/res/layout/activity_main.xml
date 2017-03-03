@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    tools:context="nathanheller.leafit.MainActivity">
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="350dp"
+        app:srcCompat="@color/colorPrimary"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/imageView"
+        android:scaleType="centerCrop" />
+
+    <Button
+        android:text="Analyze This Photo?"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/imageView"
+        android:onClick="analyzeImage"
+        android:id="@+id/analyzeButton"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:visibility="gone" />
+
+    <Button
+        android:text="Take Photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/analyzeButton"
+        android:onClick="launchCameraIntent"
+        android:id="@+id/cameraButton" />
+
+    <Button
+        android:text="Gallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/cameraButton"
+        android:onClick="launchGalleryIntent"
+        android:id="@+id/galleryButton" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:layout_below="@id/imageView"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
+
+</RelativeLayout>
