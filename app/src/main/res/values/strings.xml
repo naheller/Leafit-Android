@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Leafit</string>
-    <string name="loading_message">Loading...</string>
+    <string name="loading_message">Loading image details...</string>
 </resources>

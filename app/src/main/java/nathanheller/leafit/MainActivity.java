@@ -8,13 +8,16 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private Button analyzeButton;
     private Button cameraButton;
     private Button galleryButton;
+    private Button backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         analyzeButton = (Button) findViewById(R.id.analyzeButton);
         cameraButton = (Button) findViewById(R.id.cameraButton);
         galleryButton = (Button) findViewById(R.id.galleryButton);
+        backButton = (Button) findViewById(R.id.backButton);
     }
 
     @Override
@@ -108,6 +113,19 @@ public class MainActivity extends AppCompatActivity {
                 mImageFile.delete();
             }
         }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 
     public void launchCameraIntent(View view) {
@@ -172,9 +190,19 @@ public class MainActivity extends AppCompatActivity {
         cameraButton.setVisibility(View.GONE);
         galleryButton.setVisibility(View.GONE);
 
+        backButton.setVisibility(View.VISIBLE);
         mImageDetails.setVisibility(View.VISIBLE);
 
         uploadImage(mImageUri);
+    }
+
+    public void backButton(View view) {
+        analyzeButton.setVisibility(View.GONE);
+        backButton.setVisibility(View.GONE);
+        mImageDetails.setVisibility(View.GONE);
+
+        cameraButton.setVisibility(View.VISIBLE);
+        galleryButton.setVisibility(View.VISIBLE);
     }
 
     public void uploadImage(Uri uri) {
@@ -272,6 +300,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "created Cloud Vision request object, sending request");
 
                     BatchAnnotateImagesResponse response = annotateRequest.execute();
+
                     return convertResponseToString(response);
 
                 } catch (GoogleJsonResponseException e) {
@@ -310,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String convertResponseToString(BatchAnnotateImagesResponse response) {
-        String message = "I found these things:\n\n";
+        String message = "Leafit says:\n\n";
 
         List<EntityAnnotation> labels = response.getResponses().get(0).getLabelAnnotations();
         if (labels != null) {
